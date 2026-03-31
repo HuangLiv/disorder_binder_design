@@ -49,16 +49,21 @@ wc -l good_tags.txt
 cat good_tags_60.txt | silentslice threading.silent > threading_filtered_60.silent
 
 # Check how many structures there are
+
 silentls threading_filtered_60.silent | wc -l
 
 cd ..
 
 # ============ Step 2: MPNN sequence design ============
+
 mkdir -p 2_mpnn
+
 cd 2_mpnn
+
 export ROSETTA_DB_PATH="/data/hc/proteindesign/rosetta/main/database"
 
 ##Set --num_seq_per_target to 1 during the first run, and set it to 5 during the second run.
+
 python /path/to/Kejia_binder_design/mpnn_git_repo/design_scripts/killer_mpnn_interface_design.py \
   -silent /path/to/Kejia_binder_design/flexible_binder/1_threading/threading_filtered_60.silent \
   --num_seq_per_target 1 \
@@ -66,12 +71,14 @@ python /path/to/Kejia_binder_design/mpnn_git_repo/design_scripts/killer_mpnn_int
   --sampling_temp 0.1 \
   --out_folder /path/to/Kejia_binder_design/flexible_binder/2_mpnn \
   --out_name /path/to/kejia_binder_design/flexible_binder/2_mpnn/mpnn_out 
+
 cd ..
 
 # ============ Step 3: Extract FASTA from the silent output of MPNN ============
 mkdir -p 3_af3_local
 
 # The extraction sequence is in FASTA format (this is a crucial step!)
+
 silentsequence 2_mpnn/mpnn_out.silent | \
   awk '{print ">"$3"\n"$1":"$2}' > 3_af3_local/af3_input.fasta
 
@@ -117,6 +124,7 @@ silentfrompdbs *.pdb > af3_out.silent
 cd ../../..
 
 mkdir -p 4_mpnn
+
 cd 4_mpnn
 
 python /path/to/Kejia_binder_design/mpnn_git_repo/design_scripts/killer_mpnn_interface_design.py \
