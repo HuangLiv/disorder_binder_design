@@ -5,12 +5,17 @@ ProteinMPNN(https://github.com/dauparas/ProteinMPNN.git),
 rosetta(option,https://github.com/RosettaCommons/rosetta.git).
 
 1. git clone https://github.com/drhicks/Kejia_peptide_binders.git
+
 2. cd Kejia_peptide_binders
-3.Make sure silent_tools is in your PATH
-4.export REPO=path/to/Kejia_peptide_binders
-5.export PATH=${REPO}/silent_tools:${REPO}/job_creation:${PATH}
+
+3. Make sure silent_tools is in your PATH
+
 
 # ============ Step 1: Threading ============
+export REPO=path/to/Kejia_peptide_binders
+
+export PATH=${REPO}/silent_tools:${REPO}/job_creation:${PATH}
+
 mkdir -p scripts
 
 cd scripts
