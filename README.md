@@ -7,17 +7,24 @@ rosetta(option,https://github.com/RosettaCommons/rosetta.git).
 1. git clone https://github.com/drhicks/Kejia_peptide_binders.git
 2. cd Kejia_peptide_binders
 3.Make sure silent_tools is in your PATH
-   export REPO=path/to/Kejia_peptide_binders
- export PATH=${REPO}/silent_tools:${REPO}/job_creation:${PATH}
+4.export REPO=path/to/Kejia_peptide_binders
+5.export PATH=${REPO}/silent_tools:${REPO}/job_creation:${PATH}
 
 # ============ Step 1: Threading ============
 mkdir -p scripts
+
 cd scripts
+
 git clone https://github.com/HuangLiv/disorder_binder_design.git
+
 cd ..
+
 mkdir -p flexible_binder
+
 cd flexible_binder
+
 mkdir -p 1_threading
+
 cd 1_threading
 
 echo -e ">name\n（your peptide）" > peptide.fasta
@@ -28,10 +35,15 @@ python path/to/Kejia_binder_design/threading/make_jobs.py ../peptide.fasta ../te
 xargs -a all_jobs -I {} -P 72 bash -c "{}"
 
 # Combine all silent files (select those with energy less than -60 for further calculation to reduce computational load)
+
 cat *.silent > threading.silent
+
 cat *.sc > threading.sc
+
 awk '$3 < -60 {print $NF}' threading.sc | wc -l
+
 awk '$3 < -60 {print $NF}' threading.sc > good_tags.txt
+
 wc -l good_tags.txt
 
 cat good_tags_60.txt | silentslice threading.silent > threading_filtered_60.silent
